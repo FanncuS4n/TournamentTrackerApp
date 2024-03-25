@@ -1,31 +1,32 @@
-Create database Tournaments;
-go
+USE master
+DROP DATABASE Tournaments
+CREATE DATABASE Tournaments
 Use Tournaments
 go
-CREATE TABLE People (
+CREATE TABLE dbo.People (
     id INT PRIMARY KEY IDENTITY,
     FirstName VARCHAR(50),
     LastName VARCHAR(50),
     EmailAddress VARCHAR(100),
     CellphoneNumber VARCHAR(20)
 );
-Create table Tournaments(
+Create table dbo.Tournaments(
 	id INT PRIMARY KEY IDENTITY,
 	TournamentName VARCHAR(50),
 	EntryFee money
 );
-CREATE TABLE Teams (
+CREATE TABLE dbo.Teams (
     id INT PRIMARY KEY IDENTITY,
     TeamName VARCHAR(50)
 );
-CREATE TABLE Prizes (
+CREATE TABLE dbo.Prizes (
     id INT PRIMARY KEY IDENTITY,
-    PlaceNumber INT,
-    PlaceName VARCHAR(50),
-    PrizeAmount DECIMAL(10, 2),
-    PrizePercentage DECIMAL(5, 2)
+    PlaceNumber INT NOT NULL,
+    PlaceName VARCHAR(50) NOT NULL,
+    PrizeAmount MONEY NOT NULL,
+    PrizePercentage FLOAT NOT NULL
 );
-CREATE TABLE TournamentEntries (
+CREATE TABLE dbo.TournamentEntries (
     id INT PRIMARY KEY IDENTITY,
     TournamentId INT,
     TeamId INT,
@@ -33,14 +34,14 @@ CREATE TABLE TournamentEntries (
     FOREIGN KEY (TeamId) REFERENCES Teams(id)
 );
 
-CREATE TABLE TournamentPrizes (
+CREATE TABLE dbo.TournamentPrizes (
     id INT PRIMARY KEY IDENTITY,
     TournamentId INT,
     PrizeId INT,
     FOREIGN KEY (TournamentId) REFERENCES Tournaments(id),
     FOREIGN KEY (PrizeId) REFERENCES Prizes(id)
 );
-CREATE TABLE TeamMembers (
+CREATE TABLE dbo.TeamMembers (
     id INT PRIMARY KEY IDENTITY,
     TeamId INT,
     PersonId INT,
@@ -48,12 +49,12 @@ CREATE TABLE TeamMembers (
     FOREIGN KEY (PersonId) REFERENCES People(id)
 );
 
-CREATE TABLE Matchups (
+CREATE TABLE dbo.Matchups (
     id INT PRIMARY KEY IDENTITY,
     WinnerId INT,
     MatchupRound INT
 );
-CREATE TABLE MatchupEntries (
+CREATE TABLE dbo.MatchupEntries (
     id INT PRIMARY KEY IDENTITY,
     MatchupId INT,
     ParentMatchupId INT,
