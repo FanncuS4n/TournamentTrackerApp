@@ -147,6 +147,7 @@
             CreateMemberButton.TabIndex = 23;
             CreateMemberButton.Text = "Create Member";
             CreateMemberButton.UseVisualStyleBackColor = true;
+            CreateMemberButton.Click += CreateMemberButton_Click;
             // 
             // CellphoneValue
             // 

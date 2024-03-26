@@ -1,13 +1,19 @@
-CREATE PROCEDURE dbo.spPrizes
+
+CREATE PROCEDURE dbo.spPrizes_Insert
 	@PlaceNumber int,
 	@PlaceName nvarchar(50),
 	@PrizeAmount MONEY, 
-	@PrizePercentage float
+	@PrizePercentage float,
+	@id int = 0 output 
 AS
 BEGIN
 	SET NOCOUNT ON;
 
-    INSERT INTO dbo.Prizes (PlaceNumber, PlaceName, PrizeAmount, PricePercentage)
-	VALUES ()
+    INSERT INTO dbo.Prizes (PlaceNumber, PlaceName, PrizeAmount, PrizePercentage)
+	VALUES (@PlaceNumber, @PlaceName, @PrizeAmount, @PrizePercentage);
+
+	SELECT @id = SCOPE_IDENTITY();
 END
 GO
+
+select * from Prizes
