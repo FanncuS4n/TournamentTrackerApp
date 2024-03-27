@@ -12,9 +12,10 @@ namespace TrackerLibrary.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
+        private const string Db = "Tournaments";
         public PersonModel CreatePerson(PersonModel model)
         {
-            using (IDbConnection Connection = new SqlConnection(GlobalConfig.ConectionString("Tournaments")))
+            using (IDbConnection Connection = new SqlConnection(GlobalConfig.ConectionString(Db)))
             {
                 var Person = new DynamicParameters();
                 Person.Add("FirstName", model.FirstName);
@@ -38,7 +39,7 @@ namespace TrackerLibrary.DataAccess
         /// <returns>Prize information, including unique identifier</returns>
         public PrizeModel CreatePrize(PrizeModel model)
         {
-            using (IDbConnection Connection = new SqlConnection(GlobalConfig.ConectionString("Tournaments")))
+            using (IDbConnection Connection = new SqlConnection(GlobalConfig.ConectionString(Db)))
             {
                 var Prize  = new DynamicParameters();
                 Prize.Add("PlaceNumber", model.PlaceNumber);
@@ -53,6 +54,19 @@ namespace TrackerLibrary.DataAccess
 
                 return model;
             }
+        }
+
+        public List<PersonModel> GetPerson_All()
+        {
+            List<PersonModel> Output;
+
+            using(IDbConnection Connection = new SqlConnection(GlobalConfig.ConectionString(Db)))
+            {
+                //TODO: spPeople_GetAll was created on database but not tried!
+                Output = Connection.Query<PersonModel>("dbo.spPeople_GetAll").ToList();
+            }
+
+            return Output;
         }
     }
 }
