@@ -64,6 +64,30 @@ namespace TrackerLibrary.DataAccess.TextHelpers
 
             return Output;
         }
+        public static List<TeamModel> ConvertToTeamModels(this List<string> Lines, string PeopleFileName)
+        {
+            //Id, TeamName, List of Ids separated by |
+            List<TeamModel> Output = new List<TeamModel>();
+
+            List<PersonModel> People = PeopleFileName.FullFilePath().LoadFile().ConvertToPersonModels();
+
+            foreach (string Line in Lines)
+            {
+                string[] Cols = Line.Split(",");
+
+                TeamModel Team = new TeamModel();
+                Team.Id = int.Parse(Cols[0]);
+                Team.TeamName = Cols[1];
+
+                string[] PersonIds = Cols[2].Split("|");
+
+                foreach (string Id in PersonIds)
+                {
+                    Team.TeamMembers.Add(People.Where(x => x.Id == int.Parse(Id)).First());
+                }
+            }
+            return Output;
+        }
         public static void SaveToPrizeFile(this List<PrizeModel> Models, string FileName)
         {
             List<string> Lines = new List<string>();
@@ -82,6 +106,37 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             }
 
             File.WriteAllLines(FileName.FullFilePath(), Lines);
+        }
+        public static void SaveToTeamFile(this List<TeamModel> Models, string FileName)
+        {
+            List<string> Lines = new List<string>();
+            foreach (var Team in Models)
+            {
+                Lines.Add($"{Team.Id}, {Team.TeamName}, {ConvertPeopleListToString(Team.TeamMembers)}");
+            }
+
+            File.WriteAllLines(FileName.FullFilePath(), Lines);
+        }
+        public static string ConvertPeopleListToString(List<PersonModel> Person)
+        {
+            string Output = "";
+
+            //Ids = 2,5,1
+            if (Person.Count == 0)
+            {
+                return Output;
+            }
+
+            foreach (PersonModel P in Person)
+            {
+                Output += $"{P.Id}|";
+            }
+            //Output value: 2|5|1|
+
+            Output = Output.Substring(0, Output.Length - 1);
+            //Output value: 2|5|1
+            
+            return Output;
         }
 
     }

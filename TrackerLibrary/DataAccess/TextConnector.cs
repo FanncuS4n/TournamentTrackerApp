@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TrackerLibrary.Models;
 using TrackerLibrary.DataAccess.TextHelpers;
+using System.Reflection;
 
 namespace TrackerLibrary.DataAccess
 {
@@ -12,6 +13,7 @@ namespace TrackerLibrary.DataAccess
     {
         private const string _PrizesFile = "PrizeModels.csv";
         private const string _PersonFile = "PersonModels.csv";
+        private const string _TeamFile = "TeamModels.csv";
 
         public PrizeModel CreatePrize(PrizeModel Model)
         {
@@ -56,6 +58,26 @@ namespace TrackerLibrary.DataAccess
         public List<PersonModel> GetPerson_All()
         {
             return _PersonFile.FullFilePath().LoadFile().ConvertToPersonModels();
+        }
+
+        public TeamModel CreateTeam(TeamModel Model)
+        {
+            List<TeamModel> Teams = _TeamFile.FullFilePath().LoadFile().ConvertToTeamModels(_PersonFile);
+
+            int CurrentId = 1;
+
+            if (Teams.Count > 0)
+            {
+                CurrentId = Teams.OrderByDescending(x => x.Id).First().Id + 1;
+            }
+
+            Model.Id = CurrentId;
+
+            Teams.Add(Model);
+
+            Teams.SaveToTeamFile(_TeamFile);
+
+            return Model;
         }
     }
 }

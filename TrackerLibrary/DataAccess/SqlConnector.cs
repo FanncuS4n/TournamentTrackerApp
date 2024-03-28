@@ -13,6 +13,32 @@ namespace TrackerLibrary.DataAccess
     public class SqlConnector : IDataConnection
     {
         private const string Db = "Tournaments";
+
+        public TeamModel CreateTeam(TeamModel model)
+        {
+            using (IDbConnection Connection = new SqlConnection(GlobalConfig.ConectionString(Db)))
+            {
+                var Team = new DynamicParameters();
+                Team.Add("@TeamName", model.TeamName);
+                Team.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                Connection.Execute("dbo.spTeams_Insert", Team, commandType: CommandType.StoredProcedure);
+
+                model.Id = Team.Get<int>("@id");
+
+                foreach (PersonModel Person in model.TeamMembers)
+                {
+                    Team = new DynamicParameters();
+                    Team.Add("@TeamId", model.Id);
+                    Team.Add("PersonId", Person.Id);
+
+                    Connection.Execute("dbo.spTeamMembers_Insert", Team, commandType: CommandType.StoredProcedure);
+                }
+
+                return model;
+            }
+        }
+
         public PersonModel CreatePerson(PersonModel model)
         {
             using (IDbConnection Connection = new SqlConnection(GlobalConfig.ConectionString(Db)))
