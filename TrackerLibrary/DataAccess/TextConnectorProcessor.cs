@@ -67,6 +67,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
         public static List<TeamModel> ConvertToTeamModels(this List<string> Lines, string PeopleFileName)
         {
             //Id, TeamName, List of Ids separated by |
+
             List<TeamModel> Output = new List<TeamModel>();
 
             List<PersonModel> People = PeopleFileName.FullFilePath().LoadFile().ConvertToPersonModels();
@@ -85,6 +86,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
                 {
                     Team.TeamMembers.Add(People.Where(x => x.Id == int.Parse(Id)).First());
                 }
+                Output.Add(Team);
             }
             return Output;
         }
@@ -138,6 +140,5 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             
             return Output;
         }
-
     }
 }
