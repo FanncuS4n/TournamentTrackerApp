@@ -54,7 +54,7 @@ namespace TrackerUI
                 PersonModel Person = new PersonModel();
                 Person.FirstName = FirstNameValue.Text;
                 Person.LastName = LastNameValue.Text;
-                Person.EmailAdress = EmailValue.Text;
+                Person.EmailAddress = EmailValue.Text;
                 Person.CellphoneNumber = CellphoneValue.Text;
 
                 Person = GlobalConfig.Connection.CreatePerson(Person);
@@ -100,6 +100,8 @@ namespace TrackerUI
                 PersonModel Person = (PersonModel)SelectTeamMemberDropdown.SelectedItem;
                 AvailableTeamMembers.Remove(Person);
                 SelectedTeamMembers.Add(Person);
+
+                WireUpList();
             }
             else
             {
@@ -133,6 +135,11 @@ namespace TrackerUI
             CallingForm.TeamComplete(Team);
 
             this.Close();
+        }
+
+        private void SelectTeamMemberDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

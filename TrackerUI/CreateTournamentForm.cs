@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TrackerLibrary;
 using TrackerLibrary.Models;
+using TrackerLibrary.TournamentLogic;
 
 namespace TrackerUI
 {
@@ -98,6 +99,37 @@ namespace TrackerUI
 
                 WireUpLists();
             }
+        }
+
+        private void CreateTournamentButton_Click(object sender, EventArgs e)
+        {
+            //Validate data
+            decimal Fee;
+            bool FeeAcceptable = decimal.TryParse(EntryFeeValue.Text, out Fee);
+
+            if (!FeeAcceptable)
+            {
+                MessageBox.Show("You need to enter a valid entry fee.", 
+                    "Invalid Fee", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            //Create our Tournament model
+            TournamentModel TournamentModel = new TournamentModel();
+            TournamentModel.TournamentName = TournamentNameValue.Text;
+            TournamentModel.EntryFee = Fee;
+
+            TournamentModel.Prizes = SelectedPrizes;
+            TournamentModel.EnteredTeams = SelectedTeams;
+
+            //Wire our matchups
+            TournamentLogic.CreateRounds(TournamentModel);
+
+
+            //Create tournament entry, prizes & team entries
+            GlobalConfig.Connection.CreateTournament(TournamentModel);
         }
     }
 }
