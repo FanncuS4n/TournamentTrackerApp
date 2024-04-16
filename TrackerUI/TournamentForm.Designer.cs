@@ -123,6 +123,7 @@ partial class TournamentForm
         UnplayedOnlyCheckBox.TabIndex = 6;
         UnplayedOnlyCheckBox.Text = "Unplayed Only";
         UnplayedOnlyCheckBox.UseVisualStyleBackColor = true;
+        UnplayedOnlyCheckBox.CheckedChanged += UnplayedOnlyCheckBox_CheckedChanged;
         // 
         // ScoreButton
         // 
@@ -138,6 +139,7 @@ partial class TournamentForm
         ScoreButton.TabIndex = 7;
         ScoreButton.Text = "Score";
         ScoreButton.UseVisualStyleBackColor = true;
+        ScoreButton.Click += ScoreButton_Click;
         // 
         // RoundDropdown
         // 
@@ -147,6 +149,7 @@ partial class TournamentForm
         RoundDropdown.Name = "RoundDropdown";
         RoundDropdown.Size = new Size(297, 38);
         RoundDropdown.TabIndex = 8;
+        RoundDropdown.SelectedIndexChanged += RoundDropdown_SelectedIndexChanged;
         // 
         // MatchupListBox
         // 
@@ -158,6 +161,7 @@ partial class TournamentForm
         MatchupListBox.Name = "MatchupListBox";
         MatchupListBox.Size = new Size(492, 482);
         MatchupListBox.TabIndex = 9;
+        MatchupListBox.SelectedIndexChanged += MatchupListBox_SelectedIndexChanged;
         // 
         // TeamOneScoreValue
         // 
@@ -220,7 +224,7 @@ partial class TournamentForm
         Font = new Font("Segoe UI", 16F);
         Margin = new Padding(5, 6, 5, 6);
         Name = "TournamentForm";
-        Text = "TournamentView";
+        Text = " ";
         Load += TournamentForm_Load;
         ResumeLayout(false);
         PerformLayout();
