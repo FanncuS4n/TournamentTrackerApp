@@ -225,7 +225,6 @@ partial class TournamentForm
         Margin = new Padding(5, 6, 5, 6);
         Name = "TournamentForm";
         Text = " ";
-        Load += TournamentForm_Load;
         ResumeLayout(false);
         PerformLayout();
     }

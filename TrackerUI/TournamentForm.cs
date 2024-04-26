@@ -52,7 +52,7 @@ public partial class TournamentForm : Form
         }
         LoadMatchups(1);
     }
-    private void TournamentForm_Load(object sender, EventArgs e)
+    private void TournamentForm_Load(object sende r, EventArgs e)
     {
 
     }
