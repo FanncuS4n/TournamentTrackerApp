@@ -159,10 +159,17 @@ public partial class TournamentForm : Form
     }
     private void ScoreButton_Click(object sender, EventArgs e)
     {
+        string ErrorMessage = ValidateData();
+        if (ErrorMessage.Length > 0)
+        {
+            MessageBox.Show($"The application had the following error: {ErrorMessage}");
+            return;
+        }
         if (MatchupListBox.SelectedItem == null)
         {
             return;
         }
+
         MatchupModel M = (MatchupModel)MatchupListBox.SelectedItem;
         
         double TeamOneScore = 0, TeamTwoScore = 0;
@@ -205,7 +212,48 @@ public partial class TournamentForm : Form
             }
 
         }
-        TournamentLogic.UpdateTournamentResults(Tournament);
+        try
+        {
+            TournamentLogic.UpdateTournamentResults(Tournament);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"The application had the following error: {ex.Message}");
+            throw;
+        }
+        if (RoundDropdown.SelectedItem == null)
+        {
+            MessageBox.Show($"The application had the following error: There was no selected item on RoundDropdown");
+            return;
+        }
         LoadMatchups((int)RoundDropdown.SelectedItem);
+    }
+
+    private string ValidateData()
+    {
+        string Output = "";
+        double TeamOneScore = 0, TeamTwoScore = 0;
+
+        bool ScoreOneValid = double.TryParse(TeamOneScoreValue.Text, out TeamOneScore);
+        bool ScoreTwoValid = double.TryParse(TeamTwoScoreValue.Text, out TeamTwoScore);
+        
+        if (!ScoreOneValid)
+        {
+            Output = "The Score One value is not a valid number";
+        }
+        else if (!ScoreTwoValid)
+        {
+            Output = "The Score Two value is not a valid number";
+        }
+        else if (TeamOneScore == 0 && TeamTwoScore == 0)
+        {
+            Output = "You did not enter a score for either team";
+        }
+        else if (TeamOneScore == TeamTwoScore)
+        {
+            Output = "Ties are not allowed in this application.";
+
+        }
+        return Output;
     }
 }
