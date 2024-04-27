@@ -107,5 +107,19 @@ namespace TrackerLibrary.DataAccess
                 .ConvertToTournamentModels();
         }
 
+        public void CompleteTournament(TournamentModel Model)
+        {
+            List<TournamentModel> Tournaments = GlobalConfig._TournamentFile
+                .FullFilePath()
+                .LoadFile()
+                .ConvertToTournamentModels();
+
+            Tournaments.Remove(Model);
+
+            Tournaments.SaveToTournamentFile();
+
+            TournamentLogic.TournamentLogic.UpdateTournamentResults(Model);
+
+        }
     }
 }
