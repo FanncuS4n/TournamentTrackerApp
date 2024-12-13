@@ -42,9 +42,6 @@ Follow these steps to set up the Tournament Tracker application:
 # Clone the repository
 git clone https://github.com/FanncuS4n/TournamentTrackerApp.git
 
-# Navigate to the project directory
-cd tournament-tracker
-
 # Open the solution file in Visual Studio
 TournamentTracker.sln
 
