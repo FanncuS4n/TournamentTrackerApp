@@ -40,7 +40,7 @@ Follow these steps to set up the Tournament Tracker application:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/tournament-tracker.git
+git clone https://github.com/FanncuS4n/tournament-tracker.git
 
 # Navigate to the project directory
 cd tournament-tracker
